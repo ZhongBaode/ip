@@ -22,6 +22,8 @@ public class Mochi {
         goodByeMessage();
     }
 
+
+    /* Using If else
         private static void listenForInputs(String input, ArrayList<Task> inputs) {
             if (input.trim().equalsIgnoreCase("bye")) {
                 goodByeMessage();
@@ -42,7 +44,38 @@ public class Mochi {
                 Task task = new Task(input);
                 inputs.add(inputs.size(), task);
                 System.out.println( "added: " + input);
+            }
+        }
+    */
+    private void handle(String raw){
+        String input = raw.trim();
+        if(input.isEmpty()){
+            return;
+        }
 
+        String[] splits = input.split("\\s+", 2); // "\\s+" matches one or more whitespace characters
+        String command = splits[0].toLowerCase(Locale.ROOT);  // Locale.ROOT enforces consistency for all system
+        switch (command){
+            case "bye" -> {
+                this.isRunning = false;
+            }
+
+            case "list" -> {
+                printArrayList(inputs);
+            }
+
+            case "mark" -> {
+                markAsDone(input, inputs);
+            }
+
+            case "unmark" -> {
+                markAsUndone(input, inputs);
+            }
+            default -> {
+                Task task = new Task(input);
+                inputs.add(inputs.size(), task);
+                System.out.println( "added: " + input);
+            }
         }
     }
 
