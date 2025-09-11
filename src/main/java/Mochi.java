@@ -5,10 +5,16 @@ import java.util.List;
 
 public class Mochi {
 
-    private static List<Task> inputs = new ArrayList<Task>();   //Apparently linked list can be translated when using List<Task> instead of ArrayList<Task> so it is preferred
-    private boolean isRunning = true;                           //Used to exit the program.
-
-    public static void main(String[] args) {                //Java main need to be static, so i cannot call this.isRunning. So i outsource
+    public static final String EVENT_CMD_FROM = "/from";
+    public static final String DEADLINE_BY_CMD = "/by";
+    public static final int CMD_INDEX = 0;
+    public static final int DESCRIPTION_INDEX = 1;
+    private static final List<Task> inputs = new ArrayList<Task>();
+    public static final String EVENT_CMD_TO = "/to";
+    //used to exit program
+    private boolean isRunning = true;
+    //Java main need to be static, so I cannot call this.isRunning. So I outsourced it
+    public static void main(String[] args) {
         new Mochi().runMain();
     }
 
@@ -22,67 +28,62 @@ public class Mochi {
         goodByeMessage();
     }
 
-
-    /* Using If else
-        private static void listenForInputs(String input, ArrayList<Task> inputs) {
-            if (input.trim().equalsIgnoreCase("bye")) {
-                goodByeMessage();
-                System.exit(0);
-            }
-    
-            if (input.trim().equalsIgnoreCase("list")) {
-                printArrayList(inputs);
-            }
-            else if (input.toLowerCase().contains("unmark")){
-                markAsUndone(input, inputs);
-            }
-            else if (input.toLowerCase().contains("mark")){
-                markAsDone(input, inputs);
-            }
-    
-            else{
-                Task task = new Task(input);
-                inputs.add(inputs.size(), task);
-                System.out.println( "added: " + input);
-            }
-        }
-    */
     private void handle(String raw){
         String input = raw.trim();
         if(input.isEmpty()){
             return;
         }
 
-        String[] splits = input.split("\\s+", 2); // "\\s+" matches one or more whitespace characters
-        String command = splits[0].toLowerCase(Locale.ROOT);  // Locale.ROOT enforces consistency for all system
+        String[] splits = input.split("\\s+", 2);
+        String command = splits[CMD_INDEX].toLowerCase(Locale.ROOT);
+
         switch (command){
-            case "bye" -> {
-                this.isRunning = false;
-            }
-
-            case "list" -> {
-                printArrayList(inputs);
-            }
-
-            case "mark" -> {
-                markAsDone(input, inputs);
-            }
-
-            case "unmark" -> {
-                markAsUndone(input, inputs);
-            }
-            default -> {
-                Task task = new Task(input);
-                inputs.add(inputs.size(), task);
-                System.out.println( "added: " + input);
-            }
+            case "bye" -> this.isRunning = false;
+            case "deadline" ->  insertDeadline(splits[DESCRIPTION_INDEX]);
+            case "list" ->      printArrayList(inputs);
+            case "mark" ->      markAsDone(input, inputs);
+            case "unmark" ->    markAsUndone(input, inputs);
+            case "todo" ->      insertTodo(splits[DESCRIPTION_INDEX]);
+            case "event" ->     insertEvent(splits[DESCRIPTION_INDEX]);
         }
     }
 
+    private static void insertEvent(String uncleanedString) {
+        String description = uncleanedString.substring(0, uncleanedString.indexOf(EVENT_CMD_FROM));
+        String startDate = uncleanedString.substring(uncleanedString.indexOf(EVENT_CMD_FROM) + EVENT_CMD_FROM.length(), uncleanedString.indexOf(EVENT_CMD_TO));
+        String endDate = uncleanedString.substring(uncleanedString.indexOf(EVENT_CMD_TO) + EVENT_CMD_TO.length());
+        Event event = new Event(description, startDate, endDate);
+        inputs.add(inputs.size(), event);
+        addEventSuccess(event);
+    }
+
+    private static void insertTodo(String input) {
+        Todo todo = new Todo(input);
+        inputs.add(inputs.size(), todo);
+        addEventSuccess(todo);
+    }
+
+    private static void insertDeadline(String uncleanedString) {
+        String description = uncleanedString.substring(0, uncleanedString.indexOf(DEADLINE_BY_CMD));
+        String date = uncleanedString.substring(uncleanedString.indexOf(DEADLINE_BY_CMD) + DEADLINE_BY_CMD.length());
+        Deadline task = new Deadline(description, date);
+        inputs.add(inputs.size(),task);
+        addEventSuccess(task);
+    }
+
+    private  static void addEventSuccess(Task task){
+        System.out.println("____________________________________________________________");
+        System.out.println("Got it! I've added this task for you :3");
+        System.out.println(task.toString());
+        System.out.println("You now have " + inputs.size() + " tasks in the list");
+        System.out.println("____________________________________________________________");
+    }
     private static void markAsUndone(String input, List<Task> inputs) {
         try {
             int listIndex = Integer.parseInt(input.substring(7)) - 1;
             inputs.get(listIndex).markAsUndone();
+            System.out.println("OK I have unmarked this task for you :3");
+
         }
         catch (Exception e) {
             System.out.println("(“index out of range”, “please enter a number”");
@@ -93,6 +94,7 @@ public class Mochi {
         try {
             int listIndex = Integer.parseInt(input.substring(5)) - 1;
             inputs.get(listIndex).markAsDone();
+            System.out.println("OK I have marked this task for you :3");
         }
         catch (Exception e) {
             System.out.println("(“index out of range”, “please enter a number”");
@@ -102,8 +104,7 @@ public class Mochi {
     private static void printArrayList(List<Task> inputs) {
         System.out.println("____________________________________________________________");
         for(int i = 0; i < inputs.size(); i++) {
-            System.out.print(i + 1 + ":[" + inputs.get(i).getStatusIcon() + "]");
-            System.out.println(inputs.get(i).getDescription());
+            System.out.println(i + 1 + ":" + inputs.get(i).toString());
         }
         System.out.println("____________________________________________________________");
     }
