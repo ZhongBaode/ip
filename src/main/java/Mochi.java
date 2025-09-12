@@ -9,7 +9,7 @@ public class Mochi {
     public static final String DEADLINE_BY_CMD = "/by";
     public static final int CMD_INDEX = 0;
     public static final int DESCRIPTION_INDEX = 1;
-    private static final List<Task> inputs = new ArrayList<Task>();
+    private static final List<Task> taskList = new ArrayList<Task>();
     public static final String EVENT_CMD_TO = "/to";
     //used to exit program
     private boolean isRunning = true;
@@ -31,21 +31,26 @@ public class Mochi {
     private void handle(String raw){
         String input = raw.trim();
         if(input.isEmpty()){
-            return;
+            System.out.println("Input is empty! Please enter a valid command :)");
         }
 
         String[] splits = input.split("\\s+", 2);
         String command = splits[CMD_INDEX].toLowerCase(Locale.ROOT);
 
         switch (command){
-            case "bye" -> this.isRunning = false;
-            case "deadline" ->  insertDeadline(splits[DESCRIPTION_INDEX]);
-            case "list" ->      printArrayList(inputs);
-            case "mark" ->      markAsDone(input, inputs);
-            case "unmark" ->    markAsUndone(input, inputs);
+            case "bye" ->       goodBye();
+        case "deadline" ->      insertDeadline(splits[DESCRIPTION_INDEX]);
+            case "list" ->      printArrayList(taskList);
+            case "mark" ->      markAsDone(input, taskList);
+            case "unmark" ->    markAsUndone(input, taskList);
             case "todo" ->      insertTodo(splits[DESCRIPTION_INDEX]);
             case "event" ->     insertEvent(splits[DESCRIPTION_INDEX]);
         }
+    }
+
+    private void goodBye() {
+        System.out.println("Goodbye!");
+        this.isRunning = false;
     }
 
     private static void insertEvent(String uncleanedString) {
@@ -53,13 +58,13 @@ public class Mochi {
         String startDate = uncleanedString.substring(uncleanedString.indexOf(EVENT_CMD_FROM) + EVENT_CMD_FROM.length(), uncleanedString.indexOf(EVENT_CMD_TO));
         String endDate = uncleanedString.substring(uncleanedString.indexOf(EVENT_CMD_TO) + EVENT_CMD_TO.length());
         Event event = new Event(description, startDate, endDate);
-        inputs.add(inputs.size(), event);
+        taskList.add(taskList.size(), event);
         addEventSuccess(event);
     }
 
     private static void insertTodo(String input) {
         Todo todo = new Todo(input);
-        inputs.add(inputs.size(), todo);
+        taskList.add(taskList.size(), todo);
         addEventSuccess(todo);
     }
 
@@ -67,7 +72,7 @@ public class Mochi {
         String description = uncleanedString.substring(0, uncleanedString.indexOf(DEADLINE_BY_CMD));
         String date = uncleanedString.substring(uncleanedString.indexOf(DEADLINE_BY_CMD) + DEADLINE_BY_CMD.length());
         Deadline task = new Deadline(description, date);
-        inputs.add(inputs.size(),task);
+        taskList.add(taskList.size(),task);
         addEventSuccess(task);
     }
 
@@ -75,7 +80,7 @@ public class Mochi {
         System.out.println("____________________________________________________________");
         System.out.println("Got it! I've added this task for you :3");
         System.out.println(task.toString());
-        System.out.println("You now have " + inputs.size() + " tasks in the list");
+        System.out.println("You now have " + taskList.size() + " tasks in the list");
         System.out.println("____________________________________________________________");
     }
     private static void markAsUndone(String input, List<Task> inputs) {
