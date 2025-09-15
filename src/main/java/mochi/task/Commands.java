@@ -1,3 +1,5 @@
+package mochi.task;
+
 public enum Commands {
     BYE,
     DEADLINE,

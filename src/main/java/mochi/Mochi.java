@@ -1,5 +1,12 @@
+package mochi;
+
+import mochi.task.Commands;
+import mochi.task.Deadline;
+import mochi.task.Event;
+import mochi.task.Task;
+import mochi.task.Todo;
+
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Scanner;
 import java.util.List;
 

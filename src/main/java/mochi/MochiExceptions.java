@@ -1,3 +1,5 @@
+package mochi;
+
 public class MochiExceptions extends Exception{
 }
 
