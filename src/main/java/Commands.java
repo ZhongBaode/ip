@@ -11,7 +11,7 @@ public enum Commands {
 
     //Converts a string into a Command, or UNKNOWN if invalid.
 
-    public static Commands fromString(String input) {
+    public static Commands fromString(String input){
         if (input == null) {
             return UNKNOWN;
         }

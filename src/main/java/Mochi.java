@@ -20,29 +20,44 @@ public class Mochi {
 
     private void runMain() {
         welcomeMessage();
-        try (Scanner sc = new Scanner(System.in)) {
-            while(this.isRunning && sc.hasNextLine()){
+        Scanner sc = new Scanner(System.in);
+        while(this.isRunning && sc.hasNextLine()){
+            try{
                 handle(sc.nextLine());
+            }catch(MissingArgumentException e){
+                System.out.println("Input is empty! Please enter a valid command :)");
+            }catch(MissingDescription e){
+                System.out.println("Hey! You forgot to add a description :(");
             }
         }
         goodByeMessage();
     }
 
-    private void handle(String raw){
+    private void handle(String raw) throws MissingArgumentException, MissingDescription {
         if(raw.isEmpty()){
-            System.out.println("Input is empty! Please enter a valid command :)");
+            throw new MissingArgumentException();
         }
         String input = raw.trim();
         String[] splits = input.split("\\s+", 2);
-        Commands command = Commands.fromString(splits[CMD_INDEX]);
-        if(splits.length == 1 && command != Commands.UNKNOWN){
-            System.out.println("Hey description is empty! Please enter a valid command :)");
+        Commands command = null;
+        command = Commands.fromString(splits[CMD_INDEX]);
+        switch (command){
+        case BYE -> {
+            goodBye();
             return;
         }
+        case LIST -> {
+            printArrayList(taskList);
+            return;
+        }
+        }
+
+        if(splits.length == 1 && command != Commands.UNKNOWN){
+            throw new MissingDescription();
+        }
+
         switch (command){
-        case BYE -> goodBye();
         case DEADLINE -> insertDeadline(splits[DESCRIPTION_INDEX]);
-        case LIST -> printArrayList(taskList);
         case MARK -> markAsDone(input, taskList);
         case UNMARK -> markAsUndone(input, taskList);
         case TODO -> insertTodo(splits[DESCRIPTION_INDEX]);
