@@ -29,22 +29,25 @@ public class Mochi {
     }
 
     private void handle(String raw){
-        String input = raw.trim();
-        if(input.isEmpty()){
+        if(raw.isEmpty()){
             System.out.println("Input is empty! Please enter a valid command :)");
         }
-
+        String input = raw.trim();
         String[] splits = input.split("\\s+", 2);
-        String command = splits[CMD_INDEX].toLowerCase(Locale.ROOT);
-
+        Commands command = Commands.fromString(splits[CMD_INDEX]);
+        if(splits.length == 1 && command != Commands.UNKNOWN){
+            System.out.println("Hey description is empty! Please enter a valid command :)");
+            return;
+        }
         switch (command){
-            case "bye" ->       goodBye();
-        case "deadline" ->      insertDeadline(splits[DESCRIPTION_INDEX]);
-            case "list" ->      printArrayList(taskList);
-            case "mark" ->      markAsDone(input, taskList);
-            case "unmark" ->    markAsUndone(input, taskList);
-            case "todo" ->      insertTodo(splits[DESCRIPTION_INDEX]);
-            case "event" ->     insertEvent(splits[DESCRIPTION_INDEX]);
+        case BYE -> goodBye();
+        case DEADLINE -> insertDeadline(splits[DESCRIPTION_INDEX]);
+        case LIST -> printArrayList(taskList);
+        case MARK -> markAsDone(input, taskList);
+        case UNMARK -> markAsUndone(input, taskList);
+        case TODO -> insertTodo(splits[DESCRIPTION_INDEX]);
+        case EVENT -> insertEvent(splits[DESCRIPTION_INDEX]);
+        default -> System.out.println("Sorry command not recognized! Try again :) Type help to see list of commands!");
         }
     }
 
