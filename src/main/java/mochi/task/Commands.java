@@ -8,8 +8,10 @@ public enum Commands {
     UNMARK,
     TODO,
     EVENT,
-    UNKNOWN;
+    UNKNOWN,
+    DELETE;
     ;
+
 
     //Converts a string into a Command, or UNKNOWN if invalid.
 

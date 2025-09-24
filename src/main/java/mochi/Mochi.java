@@ -18,6 +18,7 @@ public class Mochi {
     public static final int DESCRIPTION_INDEX = 1;
     private static final List<Task> taskList = new ArrayList<Task>();
     public static final String EVENT_CMD_TO = "/to";
+    private static final int ARRAY_OFFSET = 1;
     //used to exit program
     private boolean isRunning = true;
     //Java main need to be static, so I cannot call this.isRunning. So I outsourced it
@@ -69,8 +70,26 @@ public class Mochi {
         case UNMARK -> markAsUndone(input, taskList);
         case TODO -> insertTodo(splits[DESCRIPTION_INDEX]);
         case EVENT -> insertEvent(splits[DESCRIPTION_INDEX]);
+        case DELETE -> {
+            try{
+                deleteTask(Integer.parseInt(splits[DESCRIPTION_INDEX]));
+            }catch(NumberFormatException e){
+                System.out.println("Input needs to be integer!");
+            }catch (IndexOutOfBoundsException e){
+                System.out.println("You need to specify at least one task!");
+            }
+        }
         default -> System.out.println("Sorry command not recognized! Try again :) Type help to see list of commands!");
         }
+    }
+
+    private void deleteTask(int deleteIndex) {
+        deleteIndex -= ARRAY_OFFSET;
+        if(deleteIndex >= taskList.size() || deleteIndex < 0){
+            throw new IndexOutOfBoundsException();
+        }
+        System.out.println("Deleting task: " + taskList.get(deleteIndex).getDescription());
+        taskList.remove(deleteIndex);
     }
 
     private void goodBye() {
@@ -110,7 +129,7 @@ public class Mochi {
     }
     private static void markAsUndone(String input, List<Task> inputs) {
         try {
-            int listIndex = Integer.parseInt(input.substring(7)) - 1;
+            int listIndex = Integer.parseInt(input.substring(7)) - ARRAY_OFFSET;
             inputs.get(listIndex).markAsUndone();
             System.out.println("OK I have unmarked this task for you :3");
 
@@ -122,7 +141,7 @@ public class Mochi {
 
     private static void markAsDone(String input, List<Task> inputs) {
         try {
-            int listIndex = Integer.parseInt(input.substring(5)) - 1;
+            int listIndex = Integer.parseInt(input.substring(5)) - ARRAY_OFFSET;
             inputs.get(listIndex).markAsDone();
             System.out.println("OK I have marked this task for you :3");
         }
