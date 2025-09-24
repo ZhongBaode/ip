@@ -23,7 +23,7 @@ public class Mochi {
     public static final int DESCRIPTION_INDEX = 1;
     private static final List<Task> taskList = new ArrayList<Task>();
     public static final String EVENT_CMD_TO = "/to";
-    public static final String SAVE_FILE_PATH = "src/main/java/mochi/task/test_data.txt";
+    public static final String SAVE_FILE_PATH = "src/main/java/mochi/task/MochiData.txt";
     public static boolean isPrinting = true;
     //used to exit program
     private boolean isRunning = true;
