@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
+//#TODO Handle when file is corrupted or not there
 public class FileHandler extends Mochi {
      public void returnFileContentArray(String filePath, List<Task> taskLists) throws FileNotFoundException, MissingArgumentException, MissingDescription {
         File f = new File(filePath); // create a File for the given file path
