@@ -1,11 +1,16 @@
 package mochi;
 
+import mochi.Exceptions.MissingArgumentException;
+import mochi.Exceptions.MissingDescription;
 import mochi.task.Commands;
 import mochi.task.Deadline;
 import mochi.task.Event;
+import mochi.task.FileHandler;
 import mochi.task.Task;
 import mochi.task.Todo;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.List;
@@ -19,14 +24,14 @@ public class Mochi {
     private static final List<Task> taskList = new ArrayList<Task>();
     public static final String EVENT_CMD_TO = "/to";
     private static final int ARRAY_OFFSET = 1;
+    public static final String SAVE_FILE_PATH = "src/main/java/mochi/task/MochiData.txt";
+    public static boolean isPrinting = true;
     //used to exit program
     private boolean isRunning = true;
-    //Java main need to be static, so I cannot call this.isRunning. So I outsourced it
-    public static void main(String[] args) {
-        new Mochi().runMain();
-    }
 
-    private void runMain() {
+    void runMain() throws IOException, MissingArgumentException, MissingDescription {
+        FileHandler fileHandler = new FileHandler();
+        fileHandler.returnFileContentArray(SAVE_FILE_PATH, taskList);
         welcomeMessage();
         Scanner sc = new Scanner(System.in);
         while(this.isRunning && sc.hasNextLine()){
@@ -41,7 +46,7 @@ public class Mochi {
         goodByeMessage();
     }
 
-    private void handle(String raw) throws MissingArgumentException, MissingDescription {
+    protected void handle(String raw) throws MissingArgumentException, MissingDescription {
         if(raw.isEmpty()){
             throw new MissingArgumentException();
         }
@@ -65,7 +70,7 @@ public class Mochi {
         }
 
         switch (command){
-        case DEADLINE -> insertDeadline(splits[DESCRIPTION_INDEX]);
+        case DEADLINE -> insertDeadline(splits[DESCRIPTION_INDEX]); //#TODO Error handle when deadline description is empty
         case MARK -> markAsDone(input, taskList);
         case UNMARK -> markAsUndone(input, taskList);
         case TODO -> insertTodo(splits[DESCRIPTION_INDEX]);
@@ -120,19 +125,23 @@ public class Mochi {
         addEventSuccess(task);
     }
 
-    private  static void addEventSuccess(Task task){
-        System.out.println("____________________________________________________________");
-        System.out.println("Got it! I've added this task for you :3");
-        System.out.println(task.toString());
-        System.out.println("You now have " + taskList.size() + " tasks in the list");
-        System.out.println("____________________________________________________________");
+    private  static void addEventSuccess(Task task) {
+        if (isPrinting) {
+            System.out.println("____________________________________________________________");
+            System.out.println("Got it! I've added this task for you :3");
+            System.out.println(task.toString());
+            System.out.println("You now have " + taskList.size() + " tasks in the list");
+            System.out.println("____________________________________________________________");
+        }
     }
+
     private static void markAsUndone(String input, List<Task> inputs) {
         try {
             int listIndex = Integer.parseInt(input.substring(7)) - ARRAY_OFFSET;
             inputs.get(listIndex).markAsUndone();
-            System.out.println("OK I have unmarked this task for you :3");
-
+            if(isPrinting) {
+                System.out.println("OK I have unmarked this task for you :3");
+            }
         }
         catch (Exception e) {
             System.out.println("(“index out of range”, “please enter a number”");
@@ -143,7 +152,9 @@ public class Mochi {
         try {
             int listIndex = Integer.parseInt(input.substring(5)) - ARRAY_OFFSET;
             inputs.get(listIndex).markAsDone();
-            System.out.println("OK I have marked this task for you :3");
+            if(isPrinting) {
+                System.out.println("OK I have marked this task for you :3");
+            }
         }
         catch (Exception e) {
             System.out.println("(“index out of range”, “please enter a number”");
@@ -168,12 +179,14 @@ public class Mochi {
         System.out.println(logo);
     }
 
-    private static void goodByeMessage() {
+    private static void goodByeMessage() throws IOException {
         String logo = """
                 ____________________________________________________________
                     Noot Noot
                 ____________________________________________________________
                 """;
+        FileHandler fh = new FileHandler();
+        fh.saveFile(SAVE_FILE_PATH,taskList);
         System.out.println(logo);
     }
 }
