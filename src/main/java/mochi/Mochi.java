@@ -116,7 +116,7 @@ public class Mochi {
 
         }
         catch (Exception e) {
-            System.out.println("(“index out of range”, “please enter a number”");
+            System.out.println("index out of range,please enter a valid number");
         }
     }
 
@@ -127,7 +127,7 @@ public class Mochi {
             System.out.println("OK I have marked this task for you :3");
         }
         catch (Exception e) {
-            System.out.println("(“index out of range”, “please enter a number”");
+            System.out.println("index out of range,please enter a valid number");
         }
     }
 
