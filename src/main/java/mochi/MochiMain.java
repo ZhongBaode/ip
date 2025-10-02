@@ -10,7 +10,7 @@ public class MochiMain {
     //Java main need to be static, so I cannot call this.isRunning. So I outsourced it
     public static void main(String[] args) {
         try {
-            new Mochi().runMain();
+            new Parser().runMain();
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
         } catch (MissingArgumentException e) {
