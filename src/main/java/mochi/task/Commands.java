@@ -19,6 +19,7 @@ public enum Commands {
     UNKNOWN,
     DELETE,
     FIND,
+    DELETEALL,
     ;
 
 

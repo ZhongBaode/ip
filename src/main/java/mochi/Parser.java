@@ -76,6 +76,10 @@ public class Parser {
             taskList.printArrayList();
             return;
         }
+        case DELETEALL -> {
+            taskList.clearAllTask();
+            return;
+        }
         }
 
         if(splits.length == 1 && command != Commands.UNKNOWN){

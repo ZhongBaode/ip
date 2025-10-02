@@ -97,7 +97,7 @@ public class TaskList {
             int listIndex = Integer.parseInt(input.substring(7)) - ARRAY_OFFSET;
             taskList.get(listIndex).markAsUndone();
             if(isPrinting) {
-                System.out.println("OK I have unmarked this task for you :3");
+                System.out.println("OK I have unmarked " + taskList.get(listIndex).getDescription() + " for you :3");
             }
         }
         catch (Exception e) {
@@ -110,7 +110,7 @@ public class TaskList {
             int listIndex = Integer.parseInt(input.substring(5)) - ARRAY_OFFSET;
             taskList.get(listIndex).markAsDone();
             if(isPrinting) {
-                System.out.println("OK I have marked this task for you :3");
+                System.out.println("OK I have marked " + taskList.get(listIndex).getDescription() + " for you :3");
             }
         }
         catch (Exception e) {
@@ -123,5 +123,12 @@ public class TaskList {
                 .filter(taskAtIndex -> taskAtIndex.getDescription().contains(findSubStrings))
                 .toList();
         printArrayList(matches);
+    }
+
+    public void clearAllTask() {
+        taskList.clear();
+        System.out.println("____________________________________________________________");
+        System.out.println("I have deleted all your tasks i hope you didnt regret it :(");
+        System.out.println("____________________________________________________________");
     }
 }
