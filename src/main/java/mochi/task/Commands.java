@@ -9,7 +9,8 @@ public enum Commands {
     TODO,
     EVENT,
     UNKNOWN,
-    DELETE;
+    DELETE,
+    FIND,
     ;
 
 

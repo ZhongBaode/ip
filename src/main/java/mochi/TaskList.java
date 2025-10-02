@@ -7,6 +7,7 @@ import mochi.task.Todo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static mochi.Parser.isPrinting;
 
@@ -30,6 +31,13 @@ public class TaskList {
         System.out.println("____________________________________________________________");
     }
 
+    public void printArrayList(List<Task> taskList) {
+        System.out.println("____________________________________________________________");
+        for(int i = 0; i < taskList.size(); i++) {
+            System.out.println(i + 1 + ":" + taskList.get(i).toString());
+        }
+        System.out.println("____________________________________________________________");
+    }
     public void deleteTask(String deleteIndexString) {
         int deleteIndex = 0;
         try{
@@ -96,5 +104,12 @@ public class TaskList {
         catch (Exception e) {
             System.out.println("index out of range,please enter a valid number");
         }
+    }
+
+    public void findTask(String findSubStrings) {
+        List<Task> matches = taskList.stream()
+                .filter(taskAtIndex -> taskAtIndex.getDescription().contains(findSubStrings))
+                .toList();
+        printArrayList(matches);
     }
 }

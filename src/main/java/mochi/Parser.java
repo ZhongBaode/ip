@@ -68,6 +68,7 @@ public class Parser {
         case TODO -> taskList.insertTodo(splits[DESCRIPTION_INDEX]);
         case EVENT -> taskList.insertEvent(splits[DESCRIPTION_INDEX]);
         case DELETE -> taskList.deleteTask(splits[DESCRIPTION_INDEX]);
+        case FIND -> taskList.findTask(splits[DESCRIPTION_INDEX]);
         default -> System.out.println("Sorry command not recognized! Try again :) Type help to see list of commands!");
         }
     }
