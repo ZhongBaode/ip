@@ -1,5 +1,7 @@
 package mochi.task;
-
+/**
+ * Event task format is [event] [Description] [/from] [Date1] [/to] [Date2]
+ **/
 public class Event extends Task{
     private final String startTime;
     private final String endTime;

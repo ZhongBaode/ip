@@ -13,10 +13,28 @@ import java.util.Scanner;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-//#TODO Handle when file is corrupted or not there
+/**
+ *  Handles the permanent storage of the data
+ *  Can store and retrieve data stored under data folder -> save.txt
+ *  if folder doesnt exist it will create it in order for safe relative path
+ *
+ *  save.txt is rewritten every time it saves and not appended, save format follows how
+ *  the file should be typed into CMT
+ *
+ *  for example if a todo task was present it will save it as
+ *  todo [Description]
+ *  marked/unmarked [task position]
+ */
+
 public class FileHandler extends Parser {
 
     private static final Path FILE_PATH = Paths.get("data", "save.txt");
+
+    /**
+     * Ensures a directory relative to the save file is created
+     * Creates the save file too
+     * @throws IOException when handle method fails to create the file
+     */
 
     private static void ensureFile() throws IOException {
         Files.createDirectories(FILE_PATH.getParent());
@@ -25,6 +43,13 @@ public class FileHandler extends Parser {
         }
     }
 
+    /**
+     * main method that loads taskslists from the save.txt
+     * @param taskLists takes arraylist and populate with save data
+     * @throws MissingArgumentException if handle method has no missing argument for other methods.
+     * @throws IOException when handle method fails to save the file
+     * @throws  MissingDescription if handle method has missing description
+     */
     public void returnFileContentArray(List<Task> taskLists) throws IOException, MissingArgumentException, MissingDescription {
         try{
           ensureFile();
@@ -40,6 +65,12 @@ public class FileHandler extends Parser {
         isPrinting = true;
     }
 
+
+    /**
+     * Saves current tasklist into save.txt
+     * @param taskLists takes arraylist and populate with save data
+     * @throws IOException when handle method fails to save the file
+     */
     public void saveFile(List<Task> taskLists) throws IOException{
         try{
             ensureFile();

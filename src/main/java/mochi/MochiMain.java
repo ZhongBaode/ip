@@ -6,6 +6,9 @@ import mochi.exceptions.MissingDescription;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * main class that Mochi is running under, catches most exceptions here
+ */
 public class MochiMain {
     //Java main need to be static, so I cannot call this.isRunning. So I outsourced it
     public static void main(String[] args) {

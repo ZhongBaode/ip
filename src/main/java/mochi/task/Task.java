@@ -1,5 +1,9 @@
 package mochi.task;
 
+/**
+ * Super class for all relevant actions/commands
+ */
+
 public abstract class Task {
     protected String description;
     private boolean isDone = false;

@@ -10,11 +10,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static mochi.Parser.isPrinting;
-
+/**
+ * Dedicated class for storing the arraylist of Tasks and all its relevant methods
+ */
 public class TaskList {
 
     private static final int ARRAY_OFFSET = 1;
-    static final List<Task> taskList = new ArrayList<Task>();
+    static private final List<Task> taskList = new ArrayList<Task>();
     public static final String EVENT_CMD_FROM = "/from";
     public static final String DEADLINE_BY_CMD = "/by";
     public static final String EVENT_CMD_TO = "/to";
@@ -23,6 +25,11 @@ public class TaskList {
    public List<Task> getTaskList(){
        return taskList;
    }
+
+    /**
+     * Prints entire taskList,
+     * Method overloaded by additional Argument
+     */
     public void printArrayList() {
         System.out.println("____________________________________________________________");
         for(int i = 0; i < taskList.size(); i++) {
@@ -38,6 +45,11 @@ public class TaskList {
         }
         System.out.println("____________________________________________________________");
     }
+
+    /**
+     * delete specific task in arrayList
+     * @param deleteIndexString index of the string to be deleted. Shown Index = index + index offset
+     */
     public void deleteTask(String deleteIndexString) {
         int deleteIndex = 0;
         try{
@@ -52,9 +64,9 @@ public class TaskList {
             System.out.println("You need to specify at least one task!");
             return;
         }
-
-        System.out.println("Deleting task: " + taskList.get(deleteIndex).getDescription());
+        String deletedString = taskList.get(deleteIndex).toString();
         taskList.remove(deleteIndex);
+        ui.deleteEventSuccess(deletedString, taskList.size());
     }
 
      public static void insertEvent(String uncleanedString) {

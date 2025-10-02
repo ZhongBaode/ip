@@ -8,9 +8,15 @@ import mochi.task.FileHandler;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * Handles the user input data. Data should be formatted as such [Action] [Description]
+ * Actions are defined in Commands Class
+ * Data is throughly checked to have both Action and Description and loops in here till user
+ * cancels or types "bye"
+ *
+ */
+
 public class Parser {
-
-
     public static final int CMD_INDEX = 0;
     public static final int DESCRIPTION_INDEX = 1;
     public static boolean isPrinting = true;
@@ -18,6 +24,13 @@ public class Parser {
     private boolean isRunning = true;
     private static UI ui = new UI();
     private TaskList taskList = new TaskList();
+
+    /**
+     * main method that loads and saves the taskslists and keeps the programming running continuously
+     * @throws MissingArgumentException if handle method has no missing argument for other methods.
+     * @throws IOException when handle method fails to save the file
+     * @throws  MissingDescription if handle method has missing description
+     */
 
     void runMain() throws IOException, MissingArgumentException, MissingDescription {
         FileHandler fileHandler = new FileHandler();
@@ -35,6 +48,14 @@ public class Parser {
         }
         ui.goodByeMessage();
     }
+
+    /**
+     * handles data input and executes the command
+     * @param raw Entire user input
+     * @throws MissingArgumentException if handle method has no missing argument for other methods.
+     * @throws IOException when handle method fails to save the file
+     * @throws  MissingDescription if handle method has missing description
+     */
 
     protected void handle(String raw) throws MissingArgumentException, MissingDescription, IOException {
         if(raw.isEmpty()){
