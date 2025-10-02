@@ -70,9 +70,23 @@ public class TaskList {
     }
 
      public static void insertEvent(String uncleanedString) {
-        String description = uncleanedString.substring(0, uncleanedString.indexOf(EVENT_CMD_FROM));
-        String startDate = uncleanedString.substring(uncleanedString.indexOf(EVENT_CMD_FROM) + EVENT_CMD_FROM.length(), uncleanedString.indexOf(EVENT_CMD_TO));
-        String endDate = uncleanedString.substring(uncleanedString.indexOf(EVENT_CMD_TO) + EVENT_CMD_TO.length());
+        String description;
+        String startDate;
+        String endDate;
+        try {
+             description = uncleanedString.substring(0, uncleanedString.indexOf(EVENT_CMD_FROM));
+        }catch(StringIndexOutOfBoundsException e){
+            System.out.println("Hello you missed your /to and /from >:(");
+            return;
+        }
+
+        try {
+             startDate = uncleanedString.substring(uncleanedString.indexOf(EVENT_CMD_FROM) + EVENT_CMD_FROM.length(), uncleanedString.indexOf(EVENT_CMD_TO));
+             endDate = uncleanedString.substring(uncleanedString.indexOf(EVENT_CMD_TO) + EVENT_CMD_TO.length());
+        }catch(StringIndexOutOfBoundsException e){
+            System.out.println("Hello you can you fill in your /to and /from properly");
+            return;
+        }
         Event event = new Event(description, startDate, endDate);
         taskList.add(taskList.size(), event);
         ui.addEventSuccess(event, taskList.size());
@@ -85,8 +99,21 @@ public class TaskList {
     }
 
      public static void insertDeadline(String uncleanedString) {
-        String description = uncleanedString.substring(0, uncleanedString.indexOf(DEADLINE_BY_CMD));
-        String date = uncleanedString.substring(uncleanedString.indexOf(DEADLINE_BY_CMD) + DEADLINE_BY_CMD.length());
+        String description;
+        String date;
+        try {
+             description = uncleanedString.substring(0, uncleanedString.indexOf(DEADLINE_BY_CMD));
+        }catch (StringIndexOutOfBoundsException e) {
+            System.out.println("Bro you forgot your /by");
+            return;
+        }
+
+        try {
+            date = uncleanedString.substring(uncleanedString.indexOf(DEADLINE_BY_CMD) + DEADLINE_BY_CMD.length());
+        }catch(StringIndexOutOfBoundsException e){
+            System.out.println("Bro by when??");
+            return;
+        }
         Deadline task = new Deadline(description, date);
         taskList.add(taskList.size(),task);
         ui.addEventSuccess(task, taskList.size());
