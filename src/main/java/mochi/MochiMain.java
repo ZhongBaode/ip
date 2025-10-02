@@ -1,7 +1,7 @@
 package mochi;
 
-import mochi.Exceptions.MissingArgumentException;
-import mochi.Exceptions.MissingDescription;
+import mochi.exceptions.MissingArgumentException;
+import mochi.exceptions.MissingDescription;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

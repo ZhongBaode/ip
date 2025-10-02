@@ -1,7 +1,7 @@
 package mochi.task;
 
-import mochi.Exceptions.MissingArgumentException;
-import mochi.Exceptions.MissingDescription;
+import mochi.exceptions.MissingArgumentException;
+import mochi.exceptions.MissingDescription;
 import mochi.Mochi;
 
 import java.io.File;

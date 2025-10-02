@@ -1,7 +1,7 @@
 package mochi;
 
-import mochi.Exceptions.MissingArgumentException;
-import mochi.Exceptions.MissingDescription;
+import mochi.exceptions.MissingArgumentException;
+import mochi.exceptions.MissingDescription;
 import mochi.task.Commands;
 import mochi.task.Deadline;
 import mochi.task.Event;
