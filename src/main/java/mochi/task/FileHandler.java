@@ -55,7 +55,7 @@ public class FileHandler extends Parser {
                  fw.write("event " + task.getDescription() + "/from" + ((Event) task).getStartTime()
                          + "/to" + ((Event) task).getEndTime() + System.lineSeparator());
              }else if(task instanceof Deadline){
-                 fw.write("deadline " + task.getDescription() + "/by" + ((Deadline) task).getBy() + System.lineSeparator());
+                 fw.write("deadline " + task.getDescription() + "/by" + ((Deadline) task).getTime() + System.lineSeparator());
              }else{
                  throw new RuntimeException();
              }

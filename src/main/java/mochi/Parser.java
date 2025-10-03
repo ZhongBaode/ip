@@ -69,6 +69,7 @@ public class Parser {
         case EVENT -> taskList.insertEvent(splits[DESCRIPTION_INDEX]);
         case DELETE -> taskList.deleteTask(splits[DESCRIPTION_INDEX]);
         case FIND -> taskList.findTask(splits[DESCRIPTION_INDEX]);
+        case FINDTIME -> taskList.findTime(splits[DESCRIPTION_INDEX]);
         default -> System.out.println("Sorry command not recognized! Try again :) Type help to see list of commands!");
         }
     }

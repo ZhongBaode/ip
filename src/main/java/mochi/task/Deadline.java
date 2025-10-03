@@ -2,19 +2,17 @@ package mochi.task;
 
 public class Deadline extends Task{
 
-    protected String by;
-
     public Deadline(String description, String by) {
-        super(description);
-        this.by = by;
+        super(description, by);
     }
 
-    public String getBy() {
-        return by;
+    @Override
+    public String getTime() {
+        return endTime;
     }
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by:" + by + ")";
+        return "[D]" + super.toString() + " (by:" + endTime + ")";
     }
 }

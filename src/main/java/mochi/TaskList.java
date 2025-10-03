@@ -111,5 +111,13 @@ public class TaskList {
                 .filter(taskAtIndex -> taskAtIndex.getDescription().contains(findSubStrings))
                 .toList();
         printArrayList(matches);
+   }
+
+    public void findTime(String findSubStrings) {
+        List<Task> matches = taskList.stream()
+                .filter(t -> (t instanceof Deadline || t instanceof  Event))
+                .filter(t -> t.getTime().contains(findSubStrings))
+                .toList();
+        printArrayList(matches);
     }
 }

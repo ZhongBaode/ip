@@ -1,13 +1,10 @@
 package mochi.task;
 
 public class Event extends Task{
-    private final String startTime;
-    private final String endTime;
+
 
     public Event(String description, String startTime, String endTime) {
-        super(description);
-        this.startTime = startTime;
-        this.endTime = endTime;
+        super(description, startTime, endTime);
     }
 
     public String getStartTime() {
@@ -16,6 +13,11 @@ public class Event extends Task{
 
     public String getEndTime() {
         return endTime;
+    }
+    
+    @Override
+    public String getTime() {
+        return startTime + " - " + endTime;
     }
 
     @Override
