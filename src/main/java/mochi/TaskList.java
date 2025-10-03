@@ -10,11 +10,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static mochi.Parser.isPrinting;
-
+/**
+ * Dedicated class for storing the arraylist of Tasks and all its relevant methods
+ */
 public class TaskList {
 
     private static final int ARRAY_OFFSET = 1;
-    static final List<Task> taskList = new ArrayList<Task>();
+    static private final List<Task> taskList = new ArrayList<Task>();
     public static final String EVENT_CMD_FROM = "/from";
     public static final String DEADLINE_BY_CMD = "/by";
     public static final String EVENT_CMD_TO = "/to";
@@ -23,6 +25,11 @@ public class TaskList {
    public List<Task> getTaskList(){
        return taskList;
    }
+
+    /**
+     * Prints entire taskList,
+     * Method overloaded by additional Argument
+     */
     public void printArrayList() {
         System.out.println("____________________________________________________________");
         for(int i = 0; i < taskList.size(); i++) {
@@ -38,6 +45,11 @@ public class TaskList {
         }
         System.out.println("____________________________________________________________");
     }
+
+    /**
+     * delete specific task in arrayList
+     * @param deleteIndexString index of the string to be deleted. Shown Index = index + index offset
+     */
     public void deleteTask(String deleteIndexString) {
         int deleteIndex = 0;
         try{
@@ -52,15 +64,29 @@ public class TaskList {
             System.out.println("You need to specify at least one task!");
             return;
         }
-
-        System.out.println("Deleting task: " + taskList.get(deleteIndex).getDescription());
+        String deletedString = taskList.get(deleteIndex).toString();
         taskList.remove(deleteIndex);
+        ui.deleteEventSuccess(deletedString, taskList.size());
     }
 
      public static void insertEvent(String uncleanedString) {
-        String description = uncleanedString.substring(0, uncleanedString.indexOf(EVENT_CMD_FROM));
-        String startDate = uncleanedString.substring(uncleanedString.indexOf(EVENT_CMD_FROM) + EVENT_CMD_FROM.length(), uncleanedString.indexOf(EVENT_CMD_TO));
-        String endDate = uncleanedString.substring(uncleanedString.indexOf(EVENT_CMD_TO) + EVENT_CMD_TO.length());
+        String description;
+        String startDate;
+        String endDate;
+        try {
+             description = uncleanedString.substring(0, uncleanedString.indexOf(EVENT_CMD_FROM));
+        }catch(StringIndexOutOfBoundsException e){
+            System.out.println("Hello you missed your /to and /from >:(");
+            return;
+        }
+
+        try {
+             startDate = uncleanedString.substring(uncleanedString.indexOf(EVENT_CMD_FROM) + EVENT_CMD_FROM.length(), uncleanedString.indexOf(EVENT_CMD_TO));
+             endDate = uncleanedString.substring(uncleanedString.indexOf(EVENT_CMD_TO) + EVENT_CMD_TO.length());
+        }catch(StringIndexOutOfBoundsException e){
+            System.out.println("Hello you can you fill in your /to and /from properly");
+            return;
+        }
         Event event = new Event(description, startDate, endDate);
         taskList.add(taskList.size(), event);
         ui.addEventSuccess(event, taskList.size());
@@ -73,8 +99,21 @@ public class TaskList {
     }
 
      public static void insertDeadline(String uncleanedString) {
-        String description = uncleanedString.substring(0, uncleanedString.indexOf(DEADLINE_BY_CMD));
-        String date = uncleanedString.substring(uncleanedString.indexOf(DEADLINE_BY_CMD) + DEADLINE_BY_CMD.length());
+        String description;
+        String date;
+        try {
+             description = uncleanedString.substring(0, uncleanedString.indexOf(DEADLINE_BY_CMD));
+        }catch (StringIndexOutOfBoundsException e) {
+            System.out.println("Bro you forgot your /by");
+            return;
+        }
+
+        try {
+            date = uncleanedString.substring(uncleanedString.indexOf(DEADLINE_BY_CMD) + DEADLINE_BY_CMD.length());
+        }catch(StringIndexOutOfBoundsException e){
+            System.out.println("Bro by when??");
+            return;
+        }
         Deadline task = new Deadline(description, date);
         taskList.add(taskList.size(),task);
         ui.addEventSuccess(task, taskList.size());
@@ -85,7 +124,7 @@ public class TaskList {
             int listIndex = Integer.parseInt(input.substring(7)) - ARRAY_OFFSET;
             taskList.get(listIndex).markAsUndone();
             if(isPrinting) {
-                System.out.println("OK I have unmarked this task for you :3");
+                System.out.println("OK I have unmarked " + taskList.get(listIndex).getDescription() + " for you :3");
             }
         }
         catch (Exception e) {
@@ -98,7 +137,7 @@ public class TaskList {
             int listIndex = Integer.parseInt(input.substring(5)) - ARRAY_OFFSET;
             taskList.get(listIndex).markAsDone();
             if(isPrinting) {
-                System.out.println("OK I have marked this task for you :3");
+                System.out.println("OK I have marked " + taskList.get(listIndex).getDescription() + " for you :3");
             }
         }
         catch (Exception e) {
@@ -119,5 +158,12 @@ public class TaskList {
                 .filter(t -> t.getTime().contains(findSubStrings))
                 .toList();
         printArrayList(matches);
+    }
+
+    public void clearAllTask() {
+        taskList.clear();
+        System.out.println("____________________________________________________________");
+        System.out.println("I have deleted all your tasks i hope you didnt regret it :(");
+        System.out.println("____________________________________________________________");
     }
 }
