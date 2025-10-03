@@ -144,7 +144,10 @@ public class TaskList {
             System.out.println("index out of range,please enter a valid number");
         }
     }
-
+    /**
+     * Compile the list of all the relevant description
+     * @param findSubStrings substring of the description to search all the task in arraylist
+     */
     public void findTask(String findSubStrings) {
         List<Task> matches = taskList.stream()
                 .filter(taskAtIndex -> taskAtIndex.getDescription().contains(findSubStrings))
@@ -152,6 +155,10 @@ public class TaskList {
         printArrayList(matches);
    }
 
+    /**
+     * Compile the list of all the relevant date and time
+     * @param findSubStrings substring of the time/day/date to search all the task in arraylist
+     */
     public void findTime(String findSubStrings) {
         List<Task> matches = taskList.stream()
                 .filter(t -> (t instanceof Deadline || t instanceof  Event))
