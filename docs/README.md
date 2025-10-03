@@ -111,3 +111,17 @@ ____________________________________________________________
 2:[T][ ] cs1007 project
 3:[D][ ] cg2118 project  (by: 08 oct)
 ____________________________________________________________
+
+## Find time 
+
+Returns all the Task that contains the time you specify using findtime command.
+
+Format: findtime [keyword]
+
+Example:
+find 6
+____________________________________________________________
+1:[E][ ] do tp project  (from: 6pm , to: 8pm)
+1:[E][ ] CS2107 exam  (from: 6pm , to: 8pm)
+3:[D][ ] cg2118 project  (by: 6 oct)
+____________________________________________________________
