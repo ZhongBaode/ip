@@ -20,3 +20,5 @@ event event2 /to
 event event3 /from
 deleteall
 todo thanks for trying goodbyes
+bye
+

@@ -1,4 +1,68 @@
-Goodbye!
+____________________________________________________________
+Hello! I'm Mochi
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+Got it! I've added this task for you :3
+[T][ ] go to gym
+You now have 2 tasks in the list
+____________________________________________________________
+____________________________________________________________
+Got it! I've added this task for you :3
+[D][ ] event1  (by: today)
+You now have 3 tasks in the list
+____________________________________________________________
+____________________________________________________________
+Got it! I've added this task for you :3
+[E][ ] event2  (from: today , to: tmr)
+You now have 4 tasks in the list
+____________________________________________________________
+OK I have marked thanks for trying goodbyes for you :3
+OK I have marked event1  for you :3
+OK I have unmarked go to gym for you :3
+OK I have unmarked event1  for you :3
+____________________________________________________________
+Got it! I've added this task for you :3
+[T][ ] event3
+You now have 5 tasks in the list
+____________________________________________________________
+____________________________________________________________
+Got it! I've added this task for you :3
+[T][ ] event4
+You now have 6 tasks in the list
+____________________________________________________________
+Sorry command not recognized! Try again :) Type help to see list of commands!
+Sorry command not recognized! Try again :) Type help to see list of commands!
+Sorry command not recognized! Try again :) Type help to see list of commands!
+____________________________________________________________
+Got it! I've added this task for you :3
+[E][ ] event 6  (from: today , to: tmr)
+You now have 7 tasks in the list
+____________________________________________________________
+____________________________________________________________
+1:[T][ ] go to gym
+____________________________________________________________
+____________________________________________________________
+____________________________________________________________
+____________________________________________________________
+1:[D][ ] event1  (by: today)
+2:[E][ ] event2  (from: today , to: tmr)
+3:[T][ ] event3
+4:[T][ ] event4
+5:[E][ ] event 6  (from: today , to: tmr)
+____________________________________________________________
+Hello you missed your /to and /from >:(
+Bro you forgot your /by
+Hello you missed your /to and /from >:(
+Hello you can you fill in your /to and /from properly
+____________________________________________________________
+I have deleted all your tasks i hope you didnt regret it :(
+____________________________________________________________
+____________________________________________________________
+Got it! I've added this task for you :3
+[T][ ] thanks for trying goodbyes
+You now have 1 tasks in the list
+____________________________________________________________
 ____________________________________________________________
     Noot Noot
 ____________________________________________________________
